@@ -1,0 +1,38 @@
+<project name="ANaive" default="copy">
+
+    <property name="remote.host" value="192.168.68.128" />
+    <property name="remote.username" value="vladislav" />
+    <property name="remote.password" value="5612" />
+    <property name="remote.project.dir" value="C:\Tomcat\webapps" />
+    <property name="local.project.dir" value="D:\University\Current\JAVA\All\LAB_1" />
+
+    <target name="init">
+        <echo message="Building ANaive Project" />
+    </target>
+
+    <target name="create" depends="init">
+        <echo message="Creating directories on the remote server..." />
+  <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+    command="if exist ${remote.project.dir}\AS_BVD rmdir /s /q ${remote.project.dir}\AS_BVD" />
+        <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+            command="mkdir ${remote.project.dir}\AS_BVD" />
+        <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+            command="mkdir ${remote.project.dir}\AS_BVD\\WEB-INF" />
+        <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+            command="mkdir ${remote.project.dir}\AS_BVD\\images" />
+    </target>
+
+    <target name="copy" depends="create">
+        <echo message="Copying files to the remote server..." />
+        <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\\AS_BVD\\WEB-INF" trust="true">
+            <fileset dir="${local.project.dir}" includes="web.xml" />
+        </scp>
+        <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\\AS_BVD" trust="true">
+            <fileset dir="${local.project.dir}" includes="index.html, address.html, education.html" />
+        </scp>
+        <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\\AS_BVD\\images" trust="true">
+            <fileset dir="${local.project.dir}\\images" includes="arnold.jpg" />
+        </scp>
+    </target>
+
+</project>

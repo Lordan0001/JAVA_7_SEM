@@ -1,0 +1,29 @@
+<!-- local -->
+
+<project name="ANaive" default = "copy" > 
+<target name="init"> 
+ <echo message="Building ANaive Project" /> 
+</target> 
+<target name="create" depends ="init"> 
+ <delete dir= "D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD" /> 
+ <mkdir dir= "D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD" /> 
+ <mkdir dir= "D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\WEB-INF" /> 
+ <mkdir dir= "D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\images" /> 
+</target> 
+ 
+<target name="copy" depends ="create"> 
+ <copy file= "D:\University\Current\JAVA\All\LAB_1\web.xml" 
+ todir="D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\WEB-INF\" /> 
+
+ <copy file= "D:\University\Current\JAVA\All\LAB_1\index.html" 
+ todir="D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\" /> 
+ <copy file= "D:\University\Current\JAVA\All\LAB_1\address.html" 
+ todir="D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\" /> 
+ <copy file= "D:\University\Current\JAVA\All\LAB_1\education.html" 
+ todir="D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\" /> 
+
+  <copy file= "D:\University\Current\JAVA\All\LAB_1\images\arnold.jpg" 
+ todir="D:\Programs\JAVAapps\Tomcat\webapps\AS_BVD\images\" /> 
+ </target> 
+</project> 
+
