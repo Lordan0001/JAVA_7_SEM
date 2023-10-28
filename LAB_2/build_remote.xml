@@ -1,0 +1,48 @@
+    <project name="AS_BVD2" default="copy">
+
+        <property name="remote.host" value="192.168.68.128" />
+        <property name="remote.username" value="vladislav" />
+        <property name="remote.password" value="5612" />
+        <property name="remote.project.dir" value="C:\Tomcat\webapps" />
+        <property name="local.project.dir" value="D:\University\Current\JAVA\All\LAB_2" />
+
+        <target name="init">
+            <echo message="Building AS_BVD2 Project" />
+        </target>
+
+        <target name="create" depends="init">
+            <echo message="Creating directories on the remote server..." />
+            <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+                command="if exist ${remote.project.dir}\AS_BVD2 rmdir /s /q ${remote.project.dir}\AS_BVD2" />
+            <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+                command="mkdir ${remote.project.dir}\AS_BVD2" />
+            <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+                command="mkdir ${remote.project.dir}\AS_BVD2\WEB-INF" />
+            <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+                command="mkdir ${remote.project.dir}\AS_BVD2\WEB-INF\classes" />
+        </target>
+
+        <target name="copy" depends="create">
+            <echo message="Copying files to the remote server..." />
+            <!-- Копирование Sss.java на удаленный сервер -->
+            <scp file="${local.project.dir}/src/Sss.java" todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD2\WEB-INF\classes" trust="true" />
+            
+            <!-- Компиляция Java-класса с использованием существующей библиотеки servlet-api.jar в classpath -->
+            <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}"
+                command="javac -cp C:\Tomcat\lib\servlet-api.jar -d ${remote.project.dir}\AS_BVD2\WEB-INF\classes ${remote.project.dir}\AS_BVD2\WEB-INF\classes\Sss.java" />
+
+    <!-- Копирование скомпилированных классов на удаленный сервер -->
+<scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD2\WEB-INF\classes" trust="true">
+    <fileset dir="${local.project.dir}/classes" />
+</scp>
+            
+            <!-- Копирование web.xml на удаленный сервер -->
+            <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD2\WEB-INF" trust="true">
+                <fileset dir="${local.project.dir}" includes="web.xml" />
+            </scp>
+
+            <scp file="${local.project.dir}/WebContent/index.html" todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD2" trust="true" />
+        <scp file="${local.project.dir}/WebContent/WEB-INF/web.xml" todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD2\WEB-INF" trust="true" />
+    
+        </target>
+    </project>

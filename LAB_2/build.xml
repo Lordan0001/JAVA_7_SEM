@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="AS_BVD2" default="copy">
+    <target name="init">
+        <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\"/>
+        <property name="WORK" value="D:\University\Current\JAVA\All\LAB_2\"/>
+        <echo message="Initialization"/>
+    </target>
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD2"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD2"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD2\WEB-INF"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD2\WEB-INF\classes"/>
+    </target>
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src"
+               destdir="${SERVER}webapps\AS_BVD2\WEB-INF\classes"
+               classpath="${SERVER}\lib\servlet-api.jar" />
+        <copy todir="${WORK}classes">
+            <fileset dir="${SERVER}webapps\AS_BVD2\WEB-INF\classes" />
+        </copy>
+    </target>
+    <target name="copy" depends="compile">
+        <copy file="${WORK}WebContent\index.html" todir="${SERVER}webapps\AS_BVD2"/>
+        <copy file="${WORK}WebContent\WEB-INF\web.xml" todir="${SERVER}webapps\AS_BVD2\WEB-INF"/>
+    </target>
+</project>
