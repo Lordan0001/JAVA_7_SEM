@@ -1,0 +1,37 @@
+CREATE TABLE Students(
+	Id int,
+	Name varchar(50) ,
+	Phone varchar(50),
+    PRIMARY KEY (Id)
+)
+
+INSERT INTO Students (Id, Name, Phone) VALUES
+(1, 'John Doe', '123-456-7890'),
+(2, 'Jane Smith', '987-654-3210'),
+(3, 'Alice Johnson', '555-123-4567');
+
+DELIMITER //
+CREATE PROCEDURE InsertStudent(
+    IN p_Id INT,
+    IN p_Name VARCHAR(50),
+    IN p_Phone VARCHAR(50),
+    OUT p_Status VARCHAR(50)
+)
+BEGIN
+    DECLARE insert_status VARCHAR(50);
+
+    -- Perform the insert operation
+    INSERT INTO Students (Id, Name, Phone)
+    VALUES (p_Id, p_Name, p_Phone);
+
+    -- Check if the insert was successful
+    IF ROW_COUNT() > 0 THEN
+        SET insert_status = 'Success';
+    ELSE
+        SET insert_status = 'Failure';
+    END IF;
+
+    -- Set the OUT parameter
+    SET p_Status = insert_status;
+END //
+DELIMITER ;

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="AS_BVD5" default="copy">
+    <target name="init">
+        <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\" />
+        <property name="WORK" value="D:\University\Current\JAVA\All\LAB_5\" />
+        <echo message="Initializtion" />
+    </target>
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD5" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5\WEB-INF" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5\WEB-INF\classes" />
+    </target>
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src\jspclass"
+            destdir="${SERVER}webapps\AS_BVD5\WEB-INF\classes">
+            <classpath>
+                <fileset dir="${SERVER}/lib"/>
+            </classpath>
+        </javac>
+    </target>
+    <target name="copy" depends="compile">
+        <copy file="${WORK}WebContent\index.jsp" todir="${SERVER}webapps\AS_BVD5" />
+        <copy file="${WORK}WebContent\Ttt.jsp" todir="${SERVER}webapps\AS_BVD5" />
+        <copy file="${WORK}WebContent\WEB-INF\web.xml" todir="${SERVER}webapps\AS_BVD5\WEB-INF" />
+        <copy file="${WORK}WebContent\WEB-INF\tlds\descriptor.tld" todir="${SERVER}webapps\AS_BVD5\WEB-INF\tlds" />
+    </target>
+</project>

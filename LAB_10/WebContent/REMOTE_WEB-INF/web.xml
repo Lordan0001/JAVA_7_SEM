@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0">
+<servlet>
+    <servlet-name>StaticSelectServlet</servlet-name>
+    <servlet-class>StaticSelectServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>StaticSelectServlet</servlet-name>
+    <url-pattern>/StaticSelectServlet</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>DynamicSelectServlet</servlet-name>
+    <servlet-class>DynamicSelectServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>DynamicSelectServlet</servlet-name>
+    <url-pattern>/DynamicSelectServlet</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>ProcedureServlet</servlet-name>
+    <servlet-class>ProcedureServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ProcedureServlet</servlet-name>
+    <url-pattern>/ProcedureServlet</url-pattern>
+</servlet-mapping>
+<welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+</welcome-file-list>
+</web-app>

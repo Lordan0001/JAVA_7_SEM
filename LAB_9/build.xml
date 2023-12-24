@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<project name="AS_BVD9" default="copy">
+    <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\"/>
+    <property name="WORK" value="D:\University\Current\JAVA\All\LAB_9\"/>
+
+    <target name="init">
+        <echo message="Initialization"/>
+    </target>
+
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD9"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD9"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD9\WEB-INF"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD9\WEB-INF\classes"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD9\WebContent"/>
+    </target>
+
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src" destdir="${SERVER}webapps\AS_BVD9\WEB-INF\classes">
+            <classpath>
+                <!-- Первая библиотека -->
+                <pathelement location="${SERVER}\lib\servlet-api.jar"/>
+                <!-- Вторая библиотека -->
+                <pathelement location="${SERVER}\lib\org.apache.commons.httpclient.jar"/>
+                <!-- Другие библиотеки, если есть -->
+                <pathelement location="${SERVER}\lib\commons-httpclient-3.1.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Добавлены пути к файлам для компиляции -->
+    <target name="compile_specific_files" depends="create">
+        <javac srcdir="${WORK}src" destdir="${SERVER}webapps\AS_BVD9\WEB-INF\classes">
+            <include name="Ccc.java"/>
+            <include name="mypackage/CBean.java"/>
+            <include name="listeners/L1.java"/>
+            <include name="listeners/L2.java"/>
+            <include name="filters/F1.java"/>
+            <include name="filters/F2.java"/>
+            <include name="filters/F3.java"/>
+            <classpath>
+                <!-- Первая библиотека -->
+                <pathelement location="${SERVER}\lib\servlet-api.jar"/>
+                <!-- Вторая библиотека -->
+                <pathelement location="${SERVER}\lib\org.apache.commons.httpclient.jar"/>
+                <!-- Другие библиотеки, если есть -->
+                <pathelement location="${SERVER}\lib\commons-httpclient-3.1.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Добавлены пути к файлам для копирования -->
+    <target name="copy" depends="compile_specific_files">
+        <copy todir="${SERVER}webapps\AS_BVD9\WEB-INF\classes">
+            <fileset dir="${WORK}src">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+        <!-- Копирование файлов WebContent -->
+        <copy todir="${SERVER}webapps\AS_BVD9\WebContent">
+            <fileset dir="${WORK}WebContent">
+                <include name="index.jsp"/>
+                <include name="first_task.html"/>
+                <!-- Добавлен web.xml -->
+                <include name="WEB-INF/web.xml"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

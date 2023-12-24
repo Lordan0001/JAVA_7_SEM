@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="commons-httpclient-3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/Telegram Desktop/commons-httpclient-3.1.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Telegram Desktop/commons-logging-1.2.1.1.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Telegram Desktop/org-apache-commons-codec.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/Telegram Desktop/org.apache.commons.httpclient.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

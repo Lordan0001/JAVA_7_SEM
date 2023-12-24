@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="AS_BVD4" default="copy">
+    <target name="init">
+        <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\" />
+        <property name="WORK" value="D:\University\Current\JAVA\All\LAB_4\" />
+        <echo message="Initialization" />
+    </target>
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD4" />
+        <mkdir dir="${SERVER}webapps\AS_BVD4" />
+        <mkdir dir="${SERVER}webapps\AS_BVD4\WEB-INF" />
+        <mkdir dir="${SERVER}webapps\AS_BVD4\WEB-INF\classes" />
+    </target>
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src\lab4"
+            destdir="${SERVER}webapps\AS_BVD4\WEB-INF\classes">
+        </javac>
+        <javac srcdir="${WORK}src"
+            destdir="${SERVER}webapps\AS_BVD4\WEB-INF\classes">
+            <classpath>
+                <!-- Первая библиотека -->
+                <pathelement location="${SERVER}\lib\servlet-api.jar" />
+                <!-- Вторая библиотека -->
+                <pathelement location="${SERVER}\lib\org.apache.commons.httpclient.jar" />
+                <!-- Другие библиотеки, если есть -->
+                <pathelement location="${SERVER}\lib\commons-httpclient-3.1.jar"/>
+            </classpath>
+        </javac>
+    </target>
+    <target name="copy" depends="compile">
+        <copy file="${WORK}WebContent\index.jsp" todir="${SERVER}webapps\AS_BVD4" />
+        <copy file="${WORK}WebContent\evening.jsp" todir="${SERVER}webapps\AS_BVD4" />
+        <copy file="${WORK}WebContent\afternoon.jsp" todir="${SERVER}webapps\AS_BVD4" />
+        <copy file="${WORK}WebContent\morning.jsp" todir="${SERVER}webapps\AS_BVD4" />
+        <copy file="${WORK}WebContent\night.jsp" todir="${SERVER}webapps\AS_BVD4" />
+        <copy file="${WORK}WebContent\WEB-INF\web.xml" todir="${SERVER}webapps\AS_BVD4\WEB-INF" />
+    </target>
+</project>

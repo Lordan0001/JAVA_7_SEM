@@ -1,0 +1,58 @@
+<project name="LAB_3_remote" default="deploy">
+
+    <property name="server"
+              value="D:\Programs\JAVAapps\Tomcat\"/>
+    <property name="work"
+              value="D:\University\Current\JAVA\All\LAB_3\"/>
+
+    <!-- Properties for remote server -->
+    <property name="remote.host" value="192.168.68.128" />
+    <property name="remote.username" value="vladislav" />
+    <property name="remote.password" value="5612" />
+    <property name="remote.project.dir" value="C:\Tomcat\webapps" />
+    <property name="local.project.dir" value="D:\University\Current\JAVA\All\LAB_3" />
+
+    <target name="init">
+        <echo message="Building LAB_3 Project"/>
+        <delete verbose="true">
+            <fileset dir="${work}\build"/>
+        </delete>
+        <javac fork="yes" includeantruntime="false" srcdir="${work}\src" destdir="${work}\build">
+            <classpath>
+                <pathelement location="${server}\lib\servlet-api.jar" />
+                <pathelement location="${server}\lib\org.apache.commons.httpclient.jar" />
+                <pathelement location="${server}\lib\commons-httpclient-3.1.jar"/>
+                <pathelement location="${server}\lib\commons-logging-1.2.jar"/>
+                <pathelement location="${server}\lib\commons-codec-1.15.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="create" depends="init">
+        <delete dir="${server}\webapps\AS_BVD3\"/>
+        <mkdir dir="${server}\webapps\AS_BVD3\"/>
+        <mkdir dir="${server}\webapps\AS_BVD3\WEB-INF"/>
+    </target>
+
+    <target name="copy" depends="create">
+        <copy file="${work}\src\WEB-INF\web.xml" todir="${server}\webapps\AS_BVD3\WEB-INF"/>
+        <copy file="${work}\src\html\index.html" todir="${server}\webapps\AS_BVD3\"/>
+        <copy file="${work}\src\html\main.html" todir="${server}\webapps\AS_BVD3\"/>
+        <copy todir="${server}\webapps\AS_BVD3\WEB-INF\classes">
+            <fileset dir="${work}\build"/>
+        </copy>
+    </target>
+
+    <target name="deploy" depends="copy">
+        <echo message="Deploying to Remote Server"/>
+        <scp file="${local.project.dir}\src\WEB-INF\web.xml"
+             todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}/AS_BVD3/WEB-INF"/>
+        <scp file="${local.project.dir}\src\html\index.html"
+             todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}/AS_BVD3"/>
+        <scp file="${local.project.dir}\src\html\main.html"
+             todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}/AS_BVD3"/>
+        <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}/AS_BVD3/WEB-INF/classes">
+            <fileset dir="${local.project.dir}\build"/>
+        </scp>
+    </target>
+</project>

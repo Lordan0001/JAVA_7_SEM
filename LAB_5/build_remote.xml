@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project name="AS_BVD5" default="deploy">
+    <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\" />
+    <property name="WORK" value="D:\University\Current\JAVA\All\LAB_5\" />
+    <property name="remote.host" value="192.168.68.128" />
+    <property name="remote.username" value="vladislav" />
+    <property name="remote.password" value="5612" />
+    <property name="remote.project.dir" value="C:\Tomcat\webapps" />
+    <property name="local.project.dir" value="${WORK}" />
+
+    <target name="init">
+        <echo message="Initialization" />
+    </target>
+
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD5" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5\WEB-INF" />
+        <mkdir dir="${SERVER}webapps\AS_BVD5\WEB-INF\classes" />
+    </target>
+
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src\jspclass"
+               destdir="${SERVER}webapps\AS_BVD5\WEB-INF\classes">
+            <classpath>
+                <fileset dir="${SERVER}/lib"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="copy" depends="compile">
+        <copy file="${WORK}WebContent\index.jsp" todir="${SERVER}webapps\AS_BVD5" />
+        <copy file="${WORK}WebContent\Ttt.jsp" todir="${SERVER}webapps\AS_BVD5" />
+        <copy file="${WORK}WebContent\WEB-INF\web.xml" todir="${SERVER}webapps\AS_BVD5\WEB-INF" />
+        <copy file="${WORK}WebContent\WEB-INF\tlds\descriptor.tld" todir="${SERVER}webapps\AS_BVD5\WEB-INF\tlds" />
+    </target>
+
+    <target name="deploy" depends="copy">
+        <echo message="Deploying to remote host ${remote.host}" />
+
+        <!-- Delete the remote directory if it exists -->
+        <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}" command="rmdir /s /q ${remote.project.dir}\AS_BVD5" failonerror="false" />
+
+        <!-- Create the necessary remote directories using forward slashes and proper escaping -->
+        <sshexec host="${remote.host}" username="${remote.username}" password="${remote.password}" command="mkdir ${remote.project.dir}\AS_BVD5" />
+
+        <!-- Copy the files individually from your local machine to the remote host -->
+        <scp todir="${remote.username}:${remote.password}@${remote.host}:${remote.project.dir}\AS_BVD5">
+            <fileset dir="${SERVER}webapps\AS_BVD5" />
+        </scp>
+    </target>
+
+
+
+
+</project>

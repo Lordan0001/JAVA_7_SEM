@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project name="AS_BVD10" default="copy">
+    <target name="init">
+        <property name="SERVER" value="D:\Programs\JAVAapps\Tomcat\"/>
+        <property name="WORK" value="D:\University\Current\JAVA\All\LAB_10\"/>
+        <echo message="Initialization"/>
+    </target>
+    <target name="create" depends="init">
+        <delete dir="${SERVER}webapps\AS_BVD10"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD10"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD10\WEB-INF"/>
+        <mkdir dir="${SERVER}webapps\AS_BVD10\WEB-INF\classes"/>
+        <!-- Добавлено создание директории src\mypackage -->
+        <mkdir dir="${WORK}src\mypackage"/>
+    </target>
+    <target name="compile" depends="create">
+        <javac srcdir="${WORK}src"
+               destdir="${SERVER}webapps\AS_BVD10\WEB-INF\classes">
+            <classpath>
+                <!-- Первая библиотека -->
+                <pathelement location="${SERVER}\lib\servlet-api.jar" />
+                <!-- Вторая библиотека -->
+                <pathelement location="${SERVER}\lib\org.apache.commons.httpclient.jar" />
+                <!-- Другие библиотеки, если есть -->
+                <pathelement location="${SERVER}\lib\commons-httpclient-3.1.jar"/>
+                <pathelement location="${SERVER}\lib\mysql-connector-j-8.2.0.jar"/>
+            </classpath>
+        </javac>
+    </target>
+    <target name="copy" depends="compile">
+        <copy file="${WORK}WebContent\index.html" todir="${SERVER}webapps\AS_BVD10" />
+        <copy file="${WORK}WebContent\WEB-INF\web.xml" todir="${SERVER}webapps\AS_BVD10\WEB-INF" />
+    </target>
+</project>
